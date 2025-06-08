@@ -69,7 +69,8 @@ function build(rows){
   const gruppi={}, sortKey=(a,b)=>a.localeCompare(b,undefined,{numeric:true});
   let g='';
   rows.forEach(r=>{
-    g=r.Giornata.trim()||g;
+  g = (r.Giornata || '').trim() || g;
+
     const [dd,mm,yyRaw]=r.Data.split('/'); const yy=yyRaw||new Date().getFullYear();
     const golA=r.GolA?+r.GolA:null, golB=r.GolB?+r.GolB:null;
     const winner=(golA!=null&&golB!=null)?(golA>golB?'A':golB>golA?'B':''):'';
@@ -77,8 +78,11 @@ function build(rows){
       giorno:dd.padStart(2,'0'),mese:mm.padStart(2,'0'),
       dataISO:`${yy}-${mm.padStart(2,'0')}-${dd.padStart(2,'0')}`,
       ora:r.Ora.trim(),
-      logoA:IMG_BASE+r.LogoA.trim(),logoB:IMG_BASE+r.LogoB.trim(),
-      codiceA:r.SquadraA.trim(),codiceB:r.SquadraB.trim(),
+      logoA: IMG_BASE + ((r.LogoA || '').trim()),
+logoB: IMG_BASE + ((r.LogoB || '').trim()),
+codiceA: (r.SquadraA || '').trim(),
+codiceB: (r.SquadraB || '').trim(),
+
       golA,golB,winner
     });
   });
